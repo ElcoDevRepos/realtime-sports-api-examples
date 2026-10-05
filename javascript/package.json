@@ -1,0 +1,8 @@
+{
+  "name": "realtime-sports-api-js-examples",
+  "private": true,
+  "type": "module",
+  "description": "Dependency-free Node 18+ examples for the Realtime Sports API.",
+  "engines": { "node": ">=18" },
+  "license": "MIT"
+}

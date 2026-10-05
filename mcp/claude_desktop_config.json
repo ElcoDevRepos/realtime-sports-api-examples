@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "realtime-sports": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://www.realtimesportsapi.com/api/mcp",
+               "--header", "Authorization:${RSA_AUTH}"],
+      "env": { "RSA_AUTH": "Bearer YOUR_API_KEY" }
+    }
+  }
+}

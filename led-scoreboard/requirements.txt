@@ -1,0 +1,4 @@
+# Realtime Sports API Python SDK, installed from GitHub (not yet on PyPI).
+realtime-sports-api @ git+https://github.com/ElcoDevRepos/realtime-sports-api-python
+# Optional, Raspberry Pi only: build and install rpi-rgb-led-matrix's Python bindings
+# (https://github.com/hzeller/rpi-rgb-led-matrix) to use --renderer matrix.

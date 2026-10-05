@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "realtime-sports": {
+      "type": "streamableHttp",
+      "url": "https://www.realtimesportsapi.com/api/mcp",
+      "headers": { "Authorization": "Bearer YOUR_API_KEY" },
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "inputs": [
+    {
+      "type": "promptString",
+      "id": "realtime-sports-api-key",
+      "description": "Realtime Sports API key",
+      "password": true
+    }
+  ],
+  "servers": {
+    "realtime-sports": {
+      "type": "http",
+      "url": "https://www.realtimesportsapi.com/api/mcp",
+      "headers": { "Authorization": "Bearer ${input:realtime-sports-api-key}" }
+    }
+  }
+}
