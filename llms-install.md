@@ -65,8 +65,9 @@ Other clients: see https://github.com/ElcoDevRepos/realtime-sports-api-examples/
 1. Check that the server shows as connected and exposes 14 tools (`list_leagues`, `get_live_events`,
    `get_events`, `get_event`, `get_plays`, `get_box_score`, `get_odds`, `get_schedule`,
    `list_teams`, `get_team`, `get_team_roster`, `search_athletes`, `get_injuries`, `get_news`).
-2. Call `list_leagues` (one metered call) to confirm the key works. An HTTP 401 means the key is
-   missing or wrong; an HTTP 429 means the monthly quota is used up.
+2. Call `list_leagues` (one metered call) to confirm the key works. If the header is missing, the
+   tool returns an error result with a sign-up link instead of data; an HTTP 401 means the key is
+   wrong; an HTTP 429 means the monthly quota is used up.
 
 Optional shell check without a key (lists tools, not metered):
 
