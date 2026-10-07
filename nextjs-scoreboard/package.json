@@ -1,0 +1,20 @@
+{
+  "name": "rsa-nextjs-scoreboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Minimal Next.js 14 App Router live scoreboard. The API key stays on the server; responses are cached for 30 s.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.17"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "next": "14.2.35",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
+}
