@@ -1,0 +1,15 @@
+{
+  "name": "rsa-odds-feed",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Normalised odds feed (spread, moneyline, total) with line-move detection, using the Realtime Sports API.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node feed.js",
+    "test": "node --test test/"
+  }
+}
