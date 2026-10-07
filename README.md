@@ -6,16 +6,22 @@ Runnable examples for the [Realtime Sports API](https://www.realtimesportsapi.co
 live scores, schedules, play-by-play, box scores, odds, teams, injuries and news over REST, webhooks,
 a WebSocket stream and a hosted MCP server for AI assistants.
 
-| Folder | What's inside |
-| --- | --- |
-| [`curl/`](curl) | Shell scripts using `curl` (`jq` optional, for pretty output) |
-| [`javascript/`](javascript) | Node 18+ scripts using the built-in `fetch`, no dependencies |
-| [`python/`](python) | Python 3 scripts using `requests` |
-| [`mcp/`](mcp) | MCP client configs for Claude Code, Claude Desktop, Cursor, VS Code, Cline and ChatGPT |
-| [`llms-install.md`](llms-install.md) | Setup steps an AI agent (e.g. Cline) can follow to add the hosted MCP server |
-| [`discord-score-bot/`](discord-score-bot) | Posts score changes to a Discord channel (WebSocket with REST fallback), uses the JS SDK |
-| [`led-scoreboard/`](led-scoreboard) | Terminal / Raspberry Pi RGB LED matrix scoreboard, uses the Python SDK |
-| [`google-sheets/`](google-sheets) | Apps Script custom functions: `=RSA_LIVE(...)`, `=RSA_SCHEDULE(...)` and more |
+| Folder | What's inside | Tutorial |
+| --- | --- | --- |
+| [`curl/`](curl) | Shell scripts using `curl` (`jq` optional, for pretty output) | |
+| [`javascript/`](javascript) | Node 18+ scripts using the built-in `fetch`, no dependencies | |
+| [`python/`](python) | Python 3 scripts using `requests` | |
+| [`mcp/`](mcp) | MCP client configs for Claude Code, Claude Desktop, Cursor, VS Code, Cline and ChatGPT | |
+| [`llms-install.md`](llms-install.md) | Setup steps an AI agent (e.g. Cline) can follow to add the hosted MCP server | |
+| [`discord-score-bot/`](discord-score-bot) | Posts score changes to a Discord channel (WebSocket with REST fallback), uses the JS SDK | |
+| [`slack-scoreboard/`](slack-scoreboard) | Polls live games and posts score changes and finals to a Slack Incoming Webhook, no dependencies | [Slack live scores bot](https://www.realtimesportsapi.com/guides/slack-live-scores-bot?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`nextjs-scoreboard/`](nextjs-scoreboard) | Next.js 14 App Router scoreboard; the key stays server-side, responses cached 30 s, page refreshes every 60 s | [Next.js live scoreboard](https://www.realtimesportsapi.com/guides/nextjs-live-scoreboard?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`python-analysis/`](python-analysis) | pandas season analysis: records, points for/against, home vs away, average margin, CSV export | [Python sports data analysis](https://www.realtimesportsapi.com/guides/python-sports-data-analysis?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`odds-feed/`](odds-feed) | Normalised spread/moneyline/total JSON feed with opening lines and line-move detection | [Fantasy odds feed](https://www.realtimesportsapi.com/guides/fantasy-odds-feed?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`webhook-alerts/`](webhook-alerts) | Webhook receiver that verifies `X-Webhook-Signature` and prints or forwards game alerts (paid plans) | [Webhook game alerts](https://www.realtimesportsapi.com/guides/webhook-game-alerts?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`newsletter/`](newsletter) | Weekly/daily recap (finals, top performers, upcoming games) as Markdown and email-ready HTML | [Sports stats newsletter](https://www.realtimesportsapi.com/guides/sports-stats-newsletter?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`led-scoreboard/`](led-scoreboard) | Terminal / Raspberry Pi RGB LED matrix scoreboard, uses the Python SDK | |
+| [`google-sheets/`](google-sheets) | Apps Script custom functions: `=RSA_LIVE(...)`, `=RSA_SCHEDULE(...)` and more | |
 
 ## Coverage and freshness
 
@@ -81,6 +87,17 @@ pip install -r python/requirements.txt
 python python/live_scores.py hockey nhl
 python python/schedule.py football nfl 2026 5
 python python/event_details.py football nfl <eventId>
+```
+
+**Projects** (each folder has its own README with setup and sample output)
+
+```bash
+cd slack-scoreboard && node bot.js --once --scoreboard     # Slack payloads, printed (dry run)
+cd nextjs-scoreboard && npm install && npm run dev         # http://localhost:3000/?league=nhl
+cd python-analysis && python analyze.py                    # NFL season standings -> CSV (needs pandas)
+cd odds-feed && node feed.js football nfl                  # odds feed with line moves
+cd webhook-alerts && npm test                              # signed-delivery receiver, tested locally
+cd newsletter && node recap.js                             # weekly recap -> out/*.md and *.html
 ```
 
 Sport slugs: `football` (American football), `basketball`, `baseball`, `hockey`, `soccer`. League
