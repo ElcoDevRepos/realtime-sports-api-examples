@@ -1,0 +1,15 @@
+{
+  "name": "rsa-newsletter",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Builds a sports recap newsletter (finals, top performers, upcoming games) as Markdown and HTML from the Realtime Sports API.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node recap.js",
+    "test": "node --test test/"
+  }
+}
