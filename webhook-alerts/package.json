@@ -1,0 +1,16 @@
+{
+  "name": "rsa-webhook-alerts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Receives Realtime Sports API webhooks, verifies the HMAC signature and prints or forwards game alerts.",
+  "type": "module",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "sample": "node send-sample.js",
+    "test": "node --test test/"
+  }
+}
