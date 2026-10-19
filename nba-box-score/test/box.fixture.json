@@ -1,0 +1,15 @@
+{
+  "_note": "Shape of GET /sports/basketball/leagues/nba/events/{id}/boxscore data (players trimmed, names and numbers made up). points/rebounds/assists are numbers, minutes and the other stat keys are strings.",
+  "homeTeam": { "id": "8", "name": "Detroit Pistons", "abbreviation": "DET", "score": 104 },
+  "awayTeam": { "id": "2", "name": "Boston Celtics", "abbreviation": "BOS", "score": 99 },
+  "homePlayers": [
+    { "id": "h1", "name": "Home Guard", "jersey": "0", "position": "G", "starter": true, "didNotPlay": false, "points": 31, "rebounds": 6, "assists": 11, "minutes": "36", "fieldGoalsMade-fieldGoalsAttempted": "11-22", "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "4-9", "steals": "2", "blocks": "0" },
+    { "id": "h2", "name": "Home Center", "jersey": "28", "position": "C", "starter": true, "didNotPlay": false, "points": 12, "rebounds": 14, "assists": 2, "minutes": "30", "fieldGoalsMade-fieldGoalsAttempted": "6-9", "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "0-0", "steals": "1", "blocks": "3" },
+    { "id": "h3", "name": "Home Bench", "jersey": "9", "position": "F", "starter": false, "didNotPlay": true }
+  ],
+  "awayPlayers": [
+    { "id": "a1", "name": "Away Forward", "jersey": "0", "position": "F", "starter": true, "didNotPlay": false, "points": 27, "rebounds": 10, "assists": 10, "minutes": "38", "fieldGoalsMade-fieldGoalsAttempted": "9-20", "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "3-8", "steals": "1", "blocks": "1" },
+    { "id": "a2", "name": "Away Wing", "jersey": "7", "position": "G", "starter": true, "didNotPlay": false, "points": 19, "rebounds": 4, "assists": 3, "minutes": "34", "fieldGoalsMade-fieldGoalsAttempted": "7-15", "threePointFieldGoalsMade-threePointFieldGoalsAttempted": "2-6", "steals": "0", "blocks": "0" }
+  ],
+  "periodScores": { "home": [24, 28, 25, 27], "away": [30, 22, 21, 26] }
+}

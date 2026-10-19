@@ -1,0 +1,12 @@
+{
+  "name": "rsa-n8n-workflows",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Importable n8n workflows that send live score alerts to Telegram from the Realtime Sports API (polling or webhooks).",
+  "type": "module",
+  "license": "MIT",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node build.mjs && node --test test/"
+  }
+}

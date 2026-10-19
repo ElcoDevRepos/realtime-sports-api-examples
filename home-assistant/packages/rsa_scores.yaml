@@ -1,0 +1,197 @@
+# Realtime Sports API: live score sensors for one team, as a Home Assistant package.
+# Docs: https://www.realtimesportsapi.com/guides/home-assistant-live-scores
+#
+# 1. secrets.yaml:  rsa_api_auth: "Bearer YOUR_API_KEY"
+# 2. configuration.yaml:  homeassistant: { packages: !include_dir_named packages }
+# 3. Change the league in `resource:` (and the team in input_text below), then restart.
+#
+# One REST call refreshes every sensor. The resource never polls on its own (scan_interval is a
+# day); the automations below refresh it every 2 minutes while your team is playing and every
+# 2 hours otherwise, so the quota is spent only when it matters.
+
+input_text:
+  rsa_team:
+    name: Team to follow (abbreviation)
+    initial: BOS
+    max: 10
+
+rest:
+  - resource: https://www.realtimesportsapi.com/api/v1/sports/basketball/leagues/nba/events
+    headers:
+      Authorization: !secret rsa_api_auth
+      Accept: application/json
+    scan_interval: 86400
+    timeout: 20
+    sensor:
+      - name: RSA game state
+        unique_id: rsa_game_state
+        icon: mdi:scoreboard
+        # pre / in / post, or none when the team has no game on the current scoreboard
+        value_template: >-
+          {% set team = states('input_text.rsa_team') | upper %}
+          {% set all = value_json.data | default([]) %}
+          {% set games = (all | selectattr('homeTeam.abbreviation', 'eq', team) | list)
+                       + (all | selectattr('awayTeam.abbreviation', 'eq', team) | list) %}
+          {% set live = games | selectattr('status.state', 'eq', 'in') | list %}
+          {% set pre = games | selectattr('status.state', 'eq', 'pre') | sort(attribute='date') | list %}
+          {% set post = games | selectattr('status.state', 'eq', 'post') | sort(attribute='date', reverse=true) | list %}
+          {% set g = (live + pre + post) | first | default(none) %}
+          {{ g.status.state if g else 'none' }}
+
+      - name: RSA team score
+        unique_id: rsa_team_score
+        icon: mdi:numeric
+        state_class: measurement
+        value_template: >-
+          {% set team = states('input_text.rsa_team') | upper %}
+          {% set all = value_json.data | default([]) %}
+          {% set games = (all | selectattr('homeTeam.abbreviation', 'eq', team) | list)
+                       + (all | selectattr('awayTeam.abbreviation', 'eq', team) | list) %}
+          {% set live = games | selectattr('status.state', 'eq', 'in') | list %}
+          {% set pre = games | selectattr('status.state', 'eq', 'pre') | sort(attribute='date') | list %}
+          {% set post = games | selectattr('status.state', 'eq', 'post') | sort(attribute='date', reverse=true) | list %}
+          {% set g = (live + pre + post) | first | default(none) %}
+          {% if g and g.status.state != 'pre' %}
+            {{ g.homeTeam.score if g.homeTeam.abbreviation == team else g.awayTeam.score }}
+          {% else %}unknown{% endif %}
+
+      - name: RSA opponent score
+        unique_id: rsa_opponent_score
+        icon: mdi:numeric
+        state_class: measurement
+        value_template: >-
+          {% set team = states('input_text.rsa_team') | upper %}
+          {% set all = value_json.data | default([]) %}
+          {% set games = (all | selectattr('homeTeam.abbreviation', 'eq', team) | list)
+                       + (all | selectattr('awayTeam.abbreviation', 'eq', team) | list) %}
+          {% set live = games | selectattr('status.state', 'eq', 'in') | list %}
+          {% set pre = games | selectattr('status.state', 'eq', 'pre') | sort(attribute='date') | list %}
+          {% set post = games | selectattr('status.state', 'eq', 'post') | sort(attribute='date', reverse=true) | list %}
+          {% set g = (live + pre + post) | first | default(none) %}
+          {% if g and g.status.state != 'pre' %}
+            {{ g.awayTeam.score if g.homeTeam.abbreviation == team else g.homeTeam.score }}
+          {% else %}unknown{% endif %}
+
+      - name: RSA opponent
+        unique_id: rsa_opponent
+        icon: mdi:account-group
+        value_template: >-
+          {% set team = states('input_text.rsa_team') | upper %}
+          {% set all = value_json.data | default([]) %}
+          {% set games = (all | selectattr('homeTeam.abbreviation', 'eq', team) | list)
+                       + (all | selectattr('awayTeam.abbreviation', 'eq', team) | list) %}
+          {% set live = games | selectattr('status.state', 'eq', 'in') | list %}
+          {% set pre = games | selectattr('status.state', 'eq', 'pre') | sort(attribute='date') | list %}
+          {% set post = games | selectattr('status.state', 'eq', 'post') | sort(attribute='date', reverse=true) | list %}
+          {% set g = (live + pre + post) | first | default(none) %}
+          {% if g %}{{ ('vs ' ~ g.awayTeam.abbreviation) if g.homeTeam.abbreviation == team else ('@ ' ~ g.homeTeam.abbreviation) }}{% else %}none{% endif %}
+
+      - name: RSA game detail
+        unique_id: rsa_game_detail
+        icon: mdi:clock-outline
+        # "13:12 - 2nd Period", "Final", or the local start time before the game
+        value_template: >-
+          {% set team = states('input_text.rsa_team') | upper %}
+          {% set all = value_json.data | default([]) %}
+          {% set games = (all | selectattr('homeTeam.abbreviation', 'eq', team) | list)
+                       + (all | selectattr('awayTeam.abbreviation', 'eq', team) | list) %}
+          {% set live = games | selectattr('status.state', 'eq', 'in') | list %}
+          {% set pre = games | selectattr('status.state', 'eq', 'pre') | sort(attribute='date') | list %}
+          {% set post = games | selectattr('status.state', 'eq', 'post') | sort(attribute='date', reverse=true) | list %}
+          {% set g = (live + pre + post) | first | default(none) %}
+          {{ g.status.detail[:250] if g else 'No game on the current scoreboard' }}
+
+      - name: RSA game start
+        unique_id: rsa_game_start
+        device_class: timestamp
+        value_template: >-
+          {% set team = states('input_text.rsa_team') | upper %}
+          {% set all = value_json.data | default([]) %}
+          {% set games = (all | selectattr('homeTeam.abbreviation', 'eq', team) | list)
+                       + (all | selectattr('awayTeam.abbreviation', 'eq', team) | list) %}
+          {% set live = games | selectattr('status.state', 'eq', 'in') | list %}
+          {% set pre = games | selectattr('status.state', 'eq', 'pre') | sort(attribute='date') | list %}
+          {% set post = games | selectattr('status.state', 'eq', 'post') | sort(attribute='date', reverse=true) | list %}
+          {% set g = (live + pre + post) | first | default(none) %}
+          {% if g and g.date %}{{ g.date[:16] ~ ':00+00:00' }}{% else %}unknown{% endif %}
+
+automation:
+  - id: rsa_refresh_while_live
+    alias: "Sports: refresh scores every 2 min while the game is on"
+    mode: single
+    triggers:
+      - trigger: time_pattern
+        minutes: "/2"
+    conditions:
+      - condition: template
+        value_template: >-
+          {% set s = states('sensor.rsa_game_state') %}
+          {% set start = states('sensor.rsa_game_start') | as_datetime(none) %}
+          {{ s == 'in' or (s == 'pre' and start is not none and now() >= start - timedelta(minutes=10)) }}
+    actions:
+      - action: homeassistant.update_entity
+        target:
+          entity_id: sensor.rsa_game_state
+
+  - id: rsa_refresh_idle
+    alias: "Sports: refresh the scoreboard every 2 hours"
+    mode: single
+    triggers:
+      - trigger: time_pattern
+        hours: "/2"
+        minutes: 1
+      - trigger: state
+        entity_id: input_text.rsa_team
+    conditions:
+      - condition: not
+        conditions:
+          - condition: state
+            entity_id: sensor.rsa_game_state
+            state: "in"
+    actions:
+      - action: homeassistant.update_entity
+        target:
+          entity_id: sensor.rsa_game_state
+
+  - id: rsa_game_final
+    alias: "Sports: notify the final score"
+    mode: queued
+    triggers:
+      - trigger: state
+        entity_id: sensor.rsa_game_state
+        from: "in"
+        to: "post"
+    actions:
+      - action: notify.notify
+        data:
+          title: "Final: {{ states('input_text.rsa_team') }} {{ states('sensor.rsa_opponent') }}"
+          message: >-
+            {{ states('input_text.rsa_team') }} {{ states('sensor.rsa_team_score') }} -
+            {{ states('sensor.rsa_opponent_score') }} ({{ states('sensor.rsa_game_detail') }})
+
+  # Goal light: best for low-scoring sports (NHL, NFL, soccer). Off by default; turn it on in
+  # Settings > Automations once you point the resource at that league.
+  - id: rsa_team_scored
+    alias: "Sports: my team scored (goal light)"
+    initial_state: false
+    mode: queued
+    triggers:
+      - trigger: state
+        entity_id: sensor.rsa_team_score
+    conditions:
+      - condition: state
+        entity_id: sensor.rsa_game_state
+        state: "in"
+      - condition: template
+        value_template: >-
+          {{ trigger.from_state.state | is_number and trigger.to_state.state | is_number
+             and trigger.to_state.state | int > trigger.from_state.state | int }}
+    actions:
+      - action: notify.notify
+        data:
+          title: "{{ states('input_text.rsa_team') }} scored!"
+          message: >-
+            {{ states('input_text.rsa_team') }} {{ states('sensor.rsa_team_score') }} -
+            {{ states('sensor.rsa_opponent_score') }} {{ states('sensor.rsa_opponent') }}
+            ({{ states('sensor.rsa_game_detail') }})
+      # Flash a light, play a horn on a speaker or run a scene here.

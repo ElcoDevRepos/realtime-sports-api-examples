@@ -20,6 +20,14 @@ a WebSocket stream and a hosted MCP server for AI assistants.
 | [`odds-feed/`](odds-feed) | Normalised spread/moneyline/total JSON feed with opening lines and line-move detection | [Fantasy odds feed](https://www.realtimesportsapi.com/guides/fantasy-odds-feed?utm_source=github&utm_medium=realtime-sports-api-examples) |
 | [`webhook-alerts/`](webhook-alerts) | Webhook receiver that verifies `X-Webhook-Signature` and prints or forwards game alerts (paid plans) | [Webhook game alerts](https://www.realtimesportsapi.com/guides/webhook-game-alerts?utm_source=github&utm_medium=realtime-sports-api-examples) |
 | [`newsletter/`](newsletter) | Weekly/daily recap (finals, top performers, upcoming games) as Markdown and email-ready HTML | [Sports stats newsletter](https://www.realtimesportsapi.com/guides/sports-stats-newsletter?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`telegram-bot/`](telegram-bot) | Sends score changes, starts and finals for a league or one team to a Telegram chat, no dependencies | [Telegram live scores bot](https://www.realtimesportsapi.com/guides/telegram-live-scores-bot?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`home-assistant/`](home-assistant) | Home Assistant YAML package: game state, score, opponent and start-time sensors for one team, plus final-score and goal-light automations | [Home Assistant live score sensors](https://www.realtimesportsapi.com/guides/home-assistant-live-scores?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`n8n/`](n8n) | Importable n8n workflows (polling with a quota-saving gate, or webhooks) that send score alerts to Telegram | [n8n sports score alerts](https://www.realtimesportsapi.com/guides/n8n-sports-score-alerts?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`esp32-scoreboard/`](esp32-scoreboard) | ESP32 + SSD1306 OLED desk scoreboard (Arduino); natively tested game-picking and poll-schedule logic | [ESP32 / Arduino scoreboard](https://www.realtimesportsapi.com/guides/esp32-arduino-scoreboard?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`obs-overlay/`](obs-overlay) | Transparent score bug for OBS browser sources, served by a tiny Node proxy that keeps the key local and caches upstream | [OBS live score overlay](https://www.realtimesportsapi.com/guides/obs-live-score-overlay?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`nba-box-score/`](nba-box-score) | Live NBA box scores in the terminal with player milestone alerts (30-point games, double- and triple-doubles) | [NBA live box score tracker](https://www.realtimesportsapi.com/guides/nba-live-box-score-tracker?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`nhl-goal-alerts/`](nhl-goal-alerts) | NHL goal alerts with the scorer from play-by-play: terminal, phone push (ntfy) and a goal-horn command | [NHL goal alerts](https://www.realtimesportsapi.com/guides/nhl-goal-alerts?utm_source=github&utm_medium=realtime-sports-api-examples) |
+| [`college-basketball/`](college-basketball) | Men's college basketball scoreboard, close-game watcher and NCAA tournament bracket with CSV export (Python stdlib) | [College basketball and March Madness](https://www.realtimesportsapi.com/guides/college-basketball-scoreboard-march-madness?utm_source=github&utm_medium=realtime-sports-api-examples) |
 | [`led-scoreboard/`](led-scoreboard) | Terminal / Raspberry Pi RGB LED matrix scoreboard, uses the Python SDK | |
 | [`google-sheets/`](google-sheets) | Apps Script custom functions: `=RSA_LIVE(...)`, `=RSA_SCHEDULE(...)` and more | |
 
@@ -98,6 +106,12 @@ cd python-analysis && python analyze.py                    # NFL season standing
 cd odds-feed && node feed.js football nfl                  # odds feed with line moves
 cd webhook-alerts && npm test                              # signed-delivery receiver, tested locally
 cd newsletter && node recap.js                             # weekly recap -> out/*.md and *.html
+cd telegram-bot && node bot.js --once --scoreboard         # Telegram messages, printed (dry run)
+cd nba-box-score && node tracker.js --event <eventId>      # one game's box score
+cd nhl-goal-alerts && node alerts.js --once                # live NHL games + latest goal
+cd obs-overlay && node server.js                           # http://127.0.0.1:3030/?league=nba&team=BOS
+cd college-basketball && python3 cbb.py bracket --season 2026   # NCAA tournament by round
+cd n8n && npm test                                         # rebuild + test the n8n workflows
 ```
 
 Sport slugs: `football` (American football), `basketball`, `baseball`, `hockey`, `soccer`. League

@@ -1,0 +1,225 @@
+{
+ "success": true,
+ "data": [
+  {
+   "id": "401909088",
+   "uid": "s:40~l:46~e:401909088",
+   "name": "Boston Celtics at Detroit Pistons",
+   "shortName": "BOS @ DET",
+   "date": "2026-10-20T19:00Z",
+   "status": {
+    "state": "pre",
+    "completed": false,
+    "period": 0,
+    "clock": "0.0",
+    "detail": "Tue, October 20th at 3:00 PM EDT",
+    "halftime": false,
+    "firstHalfEnded": false
+   },
+   "homeTeam": {
+    "id": "8",
+    "name": "Detroit Pistons",
+    "abbreviation": "DET",
+    "color": "1d428a",
+    "alternateColor": "c8102e",
+    "winner": false,
+    "score": 0
+   },
+   "awayTeam": {
+    "id": "2",
+    "name": "Boston Celtics",
+    "abbreviation": "BOS",
+    "color": "008348",
+    "alternateColor": "ffffff",
+    "winner": false,
+    "score": 0
+   },
+   "competition": {
+    "attendance": 0,
+    "neutralSite": false,
+    "conferenceCompetition": false,
+    "divisionCompetition": false,
+    "playByPlayAvailable": false,
+    "highlightsAvailable": true
+   },
+   "venue": {
+    "id": "5404",
+    "name": "Little Caesars Arena",
+    "city": "Detroit",
+    "state": "MI",
+    "indoor": true,
+    "grass": false
+   },
+   "notes": [],
+   "season": {
+    "year": 2027,
+    "displayName": "2026-27",
+    "type": {
+     "id": "2",
+     "name": "Regular Season",
+     "abbreviation": "reg"
+    },
+    "week": {}
+   },
+   "broadcasts": [
+    {
+     "network": {
+      "id": "1",
+      "type": "National"
+     },
+     "type": "TV"
+    }
+   ],
+   "officials": []
+  },
+  {
+   "id": "401909089",
+   "uid": "s:40~l:46~e:401909089",
+   "name": "Philadelphia 76ers at New York Knicks",
+   "shortName": "PHI @ NY",
+   "date": "2026-10-20T23:00Z",
+   "status": {
+    "state": "pre",
+    "completed": false,
+    "period": 0,
+    "clock": "0.0",
+    "detail": "Tue, October 20th at 7:00 PM EDT",
+    "halftime": false,
+    "firstHalfEnded": false
+   },
+   "homeTeam": {
+    "id": "18",
+    "name": "New York Knicks",
+    "abbreviation": "NY",
+    "color": "1d428a",
+    "alternateColor": "f58426",
+    "winner": false,
+    "score": 0
+   },
+   "awayTeam": {
+    "id": "20",
+    "name": "Philadelphia 76ers",
+    "abbreviation": "PHI",
+    "color": "1d428a",
+    "alternateColor": "e01234",
+    "winner": false,
+    "score": 0
+   },
+   "competition": {
+    "attendance": 0,
+    "neutralSite": false,
+    "conferenceCompetition": false,
+    "divisionCompetition": false,
+    "playByPlayAvailable": false,
+    "highlightsAvailable": true
+   },
+   "venue": {
+    "id": "1830",
+    "name": "Madison Square Garden",
+    "city": "New York",
+    "state": "NY",
+    "indoor": true,
+    "grass": false
+   },
+   "notes": [],
+   "season": {
+    "year": 2027,
+    "displayName": "2026-27",
+    "type": {
+     "id": "2",
+     "name": "Regular Season",
+     "abbreviation": "reg"
+    },
+    "week": {}
+   },
+   "broadcasts": [
+    {
+     "network": {
+      "id": "1",
+      "type": "National"
+     },
+     "type": "TV"
+    },
+    {
+     "network": {
+      "id": "1",
+      "type": "National"
+     },
+     "type": "Radio"
+    }
+   ],
+   "officials": []
+  },
+  {
+   "id": "401909090",
+   "uid": "s:40~l:46~e:401909090",
+   "name": "Oklahoma City Thunder at San Antonio Spurs",
+   "shortName": "OKC @ SA",
+   "date": "2026-10-21T01:30Z",
+   "status": {
+    "state": "pre",
+    "completed": false,
+    "period": 0,
+    "clock": "0.0",
+    "detail": "Tue, October 20th at 9:30 PM EDT",
+    "halftime": false,
+    "firstHalfEnded": false
+   },
+   "homeTeam": {
+    "id": "24",
+    "name": "San Antonio Spurs",
+    "abbreviation": "SA",
+    "color": "000000",
+    "alternateColor": "c4ced4",
+    "winner": false,
+    "score": 0
+   },
+   "awayTeam": {
+    "id": "25",
+    "name": "Oklahoma City Thunder",
+    "abbreviation": "OKC",
+    "color": "007ac1",
+    "alternateColor": "ef3b24",
+    "winner": false,
+    "score": 0
+   },
+   "competition": {
+    "attendance": 0,
+    "neutralSite": false,
+    "conferenceCompetition": false,
+    "divisionCompetition": false,
+    "playByPlayAvailable": false,
+    "highlightsAvailable": true
+   },
+   "venue": {
+    "id": "780",
+    "name": "Frost Bank Center",
+    "city": "San Antonio",
+    "state": "TX",
+    "indoor": true,
+    "grass": false
+   },
+   "notes": [],
+   "season": {
+    "year": 2027,
+    "displayName": "2026-27",
+    "type": {
+     "id": "2",
+     "name": "Regular Season",
+     "abbreviation": "reg"
+    },
+    "week": {}
+   },
+   "broadcasts": [
+    {
+     "network": {
+      "id": "1",
+      "type": "National"
+     },
+     "type": "TV"
+    }
+   ],
+   "officials": []
+  }
+ ]
+}

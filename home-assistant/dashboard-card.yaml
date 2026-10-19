@@ -1,0 +1,17 @@
+# Optional dashboard card: Edit dashboard > Add card > Manual, paste this.
+type: entities
+title: Game
+entities:
+  - entity: input_text.rsa_team
+    name: Team
+  - entity: sensor.rsa_opponent
+    name: Opponent
+  - entity: sensor.rsa_team_score
+    name: Us
+  - entity: sensor.rsa_opponent_score
+    name: Them
+  - entity: sensor.rsa_game_detail
+    name: Clock / status
+  - entity: sensor.rsa_game_start
+    name: Start
+    format: relative

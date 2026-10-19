@@ -1,0 +1,13 @@
+{
+  "name": "rsa-obs-overlay",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A live score bug for OBS browser sources, served by a tiny key-hiding Node proxy for the Realtime Sports API.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test test/"
+  }
+}

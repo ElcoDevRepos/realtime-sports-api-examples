@@ -1,0 +1,14 @@
+{
+  "name": "rsa-nba-box-score",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Live NBA box scores in the terminal with player milestone alerts (30-point games, double-doubles, triple-doubles), using the Realtime Sports API.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node tracker.js",
+    "once": "node tracker.js --once",
+    "test": "node --test test/"
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "name": "Realtime Sports API: score alerts (webhooks)",
+  "nodes": [
+    {
+      "id": "9adeffb2-b9dd-bb65-7d93-d121203f192b",
+      "name": "Realtime Sports API webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "rsa-scores-CHANGE-ME-to-something-random",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "webhookId": "b4c1f0e2-5d3a-4c8e-9f61-2a7d0e9b3c55"
+    },
+    {
+      "id": "1bef9a9b-f5d0-941e-6c3d-4f1f5688772b",
+      "name": "Format alert",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "jsCode": "// Turns a Realtime Sports API webhook delivery { event, timestamp, data } into one line of text,\n// or null to skip it. Plain JavaScript; build.mjs pastes it into the webhook workflow's Code node.\nfunction formatAlert(payload) {\n  const type = payload && payload.event;\n  const d = (payload && payload.data) || {};\n  if (!type) return null;\n  const label = (t) => (t && (t.abbreviation || t.name)) || '?';\n  const score = `${label(d.awayTeam)} ${d.awayTeam?.score ?? 0} - ${d.homeTeam?.score ?? 0} ${label(d.homeTeam)}`;\n  const tag = d.league ? `[${String(d.league).toUpperCase()}] ` : '';\n  switch (type) {\n    case 'event.final':\n      return `${tag}🏁 FINAL: ${score}`;\n    case 'event.score_change':\n      return `${tag}🚨 ${score}${d.status?.detail ? ` (${d.status.detail})` : ''}`;\n    case 'event.live':\n      return `${tag}🟢 LIVE: ${label(d.awayTeam)} @ ${label(d.homeTeam)}`;\n    default:\n      return null; // status changes and plays are frequent; add cases here if you want them\n  }\n}\n\n// The Webhook node puts the delivery's JSON body under $json.body.\nconst text = formatAlert($input.first().json.body);\nreturn text ? [{ json: { text } }] : [];"
+      }
+    },
+    {
+      "id": "ed13b24a-3762-3934-831f-83d8958dc5b8",
+      "name": "Send to Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "chatId": "YOUR_CHAT_ID",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Realtime Sports API webhook": {
+      "main": [
+        [
+          {
+            "node": "Format alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format alert": {
+      "main": [
+        [
+          {
+            "node": "Send to Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}

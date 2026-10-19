@@ -1,0 +1,15 @@
+{
+  "name": "rsa-telegram-bot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Sends live score changes for a league or team to a Telegram chat, using the Realtime Sports API.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node bot.js",
+    "dry-run": "node bot.js --dry-run",
+    "once": "node bot.js --once",
+    "test": "node --test test/"
+  }
+}

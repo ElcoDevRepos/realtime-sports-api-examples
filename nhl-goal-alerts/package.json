@@ -1,0 +1,14 @@
+{
+  "name": "rsa-nhl-goal-alerts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Goal alerts (terminal, phone push via ntfy, goal horn command) for live NHL games, using the Realtime Sports API.",
+  "type": "module",
+  "license": "MIT",
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "start": "node alerts.js",
+    "once": "node alerts.js --once",
+    "test": "node --test test/"
+  }
+}

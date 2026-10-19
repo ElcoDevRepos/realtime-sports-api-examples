@@ -1,0 +1,212 @@
+{
+ "success": true,
+ "data": [
+  {
+   "id": "401892533",
+   "uid": "s:70~l:90~e:401892533",
+   "name": "Columbus Blue Jackets at Minnesota Wild",
+   "shortName": "CBJ @ MIN",
+   "date": "2026-10-18T22:00Z",
+   "status": {
+    "state": "post",
+    "completed": true,
+    "period": 3,
+    "clock": "0:00",
+    "detail": "Final",
+    "halftime": false,
+    "firstHalfEnded": true
+   },
+   "homeTeam": {
+    "id": "30",
+    "name": "Minnesota Wild",
+    "abbreviation": "MIN",
+    "color": "124734",
+    "alternateColor": "ae122a",
+    "winner": true,
+    "score": 2
+   },
+   "awayTeam": {
+    "id": "29",
+    "name": "Columbus Blue Jackets",
+    "abbreviation": "CBJ",
+    "color": "002d62",
+    "alternateColor": "e31937",
+    "winner": false,
+    "score": 1
+   },
+   "competition": {
+    "attendance": 18012,
+    "neutralSite": false,
+    "conferenceCompetition": false,
+    "divisionCompetition": false,
+    "playByPlayAvailable": true,
+    "highlightsAvailable": true
+   },
+   "venue": {
+    "id": "1835",
+    "name": "Grand Casino Arena",
+    "city": "Saint Paul",
+    "state": "MN",
+    "indoor": true,
+    "grass": false
+   },
+   "notes": [],
+   "season": {
+    "year": 2027,
+    "displayName": "2026-27",
+    "type": {
+     "id": "2",
+     "name": "Regular Season",
+     "abbreviation": "reg"
+    },
+    "week": {}
+   },
+   "broadcasts": [
+    {
+     "network": {
+      "id": "1",
+      "type": "National"
+     },
+     "type": "Streaming"
+    },
+    {
+     "network": {
+      "id": "3",
+      "type": "Away"
+     },
+     "type": "TV"
+    },
+    {
+     "network": {
+      "id": "2",
+      "type": "Home"
+     },
+     "type": "TV"
+    }
+   ],
+   "officials": [
+    {
+     "id": "3069284",
+     "fullName": "Justin Kea",
+     "displayName": "Justin Kea",
+     "order": 0,
+     "position": "Referee"
+    },
+    {
+     "id": "3943091",
+     "fullName": "Jake Brenk",
+     "displayName": "Jake Brenk",
+     "order": 0,
+     "position": "Referee"
+    },
+    {
+     "id": "4076495",
+     "fullName": "Bevan Mills",
+     "displayName": "Bevan Mills",
+     "order": 0,
+     "position": "Linesman"
+    }
+   ]
+  },
+  {
+   "id": "401892534",
+   "uid": "s:70~l:90~e:401892534",
+   "name": "Carolina Hurricanes at Calgary Flames",
+   "shortName": "CAR @ CGY",
+   "date": "2026-10-19T00:00Z",
+   "status": {
+    "state": "in",
+    "completed": false,
+    "period": 2,
+    "clock": "13:12",
+    "detail": "13:12 - 2nd Period",
+    "halftime": false,
+    "firstHalfEnded": true
+   },
+   "homeTeam": {
+    "id": "3",
+    "name": "Calgary Flames",
+    "abbreviation": "CGY",
+    "color": "dd1a32",
+    "alternateColor": "000000",
+    "winner": false,
+    "score": 0
+   },
+   "awayTeam": {
+    "id": "7",
+    "name": "Carolina Hurricanes",
+    "abbreviation": "CAR",
+    "color": "e30426",
+    "alternateColor": "000000",
+    "winner": false,
+    "score": 1
+   },
+   "competition": {
+    "attendance": 0,
+    "neutralSite": false,
+    "conferenceCompetition": false,
+    "divisionCompetition": false,
+    "playByPlayAvailable": true,
+    "highlightsAvailable": true
+   },
+   "venue": {
+    "id": "1843",
+    "name": "Scotiabank Saddledome",
+    "city": "Calgary",
+    "state": "AB",
+    "indoor": true,
+    "grass": false
+   },
+   "notes": [],
+   "season": {
+    "year": 2027,
+    "displayName": "2026-27",
+    "type": {
+     "id": "2",
+     "name": "Regular Season",
+     "abbreviation": "reg"
+    },
+    "week": {}
+   },
+   "broadcasts": [
+    {
+     "network": {
+      "id": "1",
+      "type": "National"
+     },
+     "type": "Streaming"
+    },
+    {
+     "network": {
+      "id": "3",
+      "type": "Away"
+     },
+     "type": "TV"
+    }
+   ],
+   "officials": [
+    {
+     "id": "2525906",
+     "fullName": "Cody Beach",
+     "displayName": "Cody Beach",
+     "order": 0,
+     "position": "Referee"
+    },
+    {
+     "id": "3152160",
+     "fullName": "Garrett Rank",
+     "displayName": "Garrett Rank",
+     "order": 0,
+     "position": "Referee"
+    },
+    {
+     "id": "4587966",
+     "fullName": "Travis Toomey",
+     "displayName": "Travis Toomey",
+     "order": 0,
+     "position": "Linesman"
+    }
+   ]
+  }
+ ]
+}

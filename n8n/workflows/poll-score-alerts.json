@@ -1,0 +1,134 @@
+{
+  "name": "Realtime Sports API: score alerts (polling)",
+  "nodes": [
+    {
+      "id": "5005f755-7ce2-199f-2c40-f2cea8c1d8be",
+      "name": "Every minute",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "9a9591d3-5c7c-f52a-cdde-936faf07e40a",
+      "name": "Worth calling?",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        0
+      ],
+      "parameters": {
+        "jsCode": "// Runs every minute but only lets the workflow call the API when it's worth it\n// (every 2 min while a game is live, shortly before the next start, otherwise every 3 hours).\n// Static data persists only for active (production) executions, not manual test runs.\nconst state = $getWorkflowStaticData('global');\nif (Date.now() < (state.nextCheck || 0)) return [];\nreturn [{ json: {} }];"
+      }
+    },
+    {
+      "id": "2e33a49d-0ea5-77e5-9ccd-cff88c82bb49",
+      "name": "Get scoreboard",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "parameters": {
+        "url": "https://www.realtimesportsapi.com/api/v1/sports/basketball/leagues/nba/events",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "options": {}
+      }
+    },
+    {
+      "id": "6e887322-64d6-5b1c-5d83-674382159e78",
+      "name": "Score changes",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        0
+      ],
+      "parameters": {
+        "jsCode": "// Edit these two lines. TEAM is an abbreviation (e.g. BOS) or a team id; '' = every game in the league.\nconst TEAM = 'BOS';\n\n// Score-change logic for the n8n polling workflow. Plain JavaScript with no imports: build.mjs\n// pastes this file into the workflow's Code nodes, and test/ runs it with node --test.\n\n/** True when `team` (abbreviation or id, case-insensitive) plays in `game`. Empty team = every game. */\nfunction involvesTeam(game, team) {\n  if (!team) return true;\n  const t = String(team).toLowerCase();\n  return [game.homeTeam, game.awayTeam].some((x) => x && (String(x.id) === t || String(x.abbreviation || '').toLowerCase() === t));\n}\n\nfunction line(g) {\n  const a = g.awayTeam || {};\n  const h = g.homeTeam || {};\n  return `${a.abbreviation || a.name} ${a.score ?? 0} - ${h.score ?? 0} ${h.abbreviation || h.name}`;\n}\n\n/**\n * One polling step. `state` is { scores: {eventId: 'away-home|state'}, initialised, nextCheck }.\n * `games` is the `data` array of GET /events (the scoreboard, which carries live scores too).\n * Returns { messages, state } where state.nextCheck (ms) says when the next API call is worth making:\n * 2 minutes while a game is live, ~5 minutes before the next start, else in 3 hours (max 6 hours).\n */\nfunction scoreStep(state, games, team, now, { liveMs = 120000 } = {}) {\n  const prev = (state && state.scores) || {};\n  const initialised = Boolean(state && state.initialised);\n  const scores = {};\n  const messages = [];\n  let live = false;\n  let nextStart = null;\n  for (const g of games || []) {\n    if (!involvesTeam(g, team)) continue;\n    const st = (g.status && g.status.state) || 'pre';\n    const key = `${g.awayTeam?.score ?? 0}-${g.homeTeam?.score ?? 0}|${st}`;\n    scores[g.id] = key;\n    if (st === 'in') live = true;\n    if (st === 'pre' && g.date) {\n      const t = Date.parse(g.date);\n      if (t > now && (nextStart === null || t < nextStart)) nextStart = t;\n    }\n    const old = prev[g.id];\n    if (!initialised || old === key) continue;\n    const detail = g.status?.detail ? ` (${g.status.detail})` : '';\n    const oldState = old ? old.split('|')[1] : 'pre';\n    if (st === 'in' && oldState === 'pre') messages.push(`🟢 Started: ${line(g)}${detail}`);\n    else if (st === 'post' && oldState !== 'post') messages.push(`🏁 Final: ${line(g)}`);\n    else if (st === 'in') messages.push(`🚨 Score: ${line(g)}${detail}`);\n  }\n  let wait;\n  if (live) wait = liveMs;\n  else if (nextStart !== null) wait = Math.max(nextStart - now - 300000, liveMs);\n  else wait = 3 * 3600000;\n  return { messages, state: { scores, initialised: true, nextCheck: now + Math.min(wait, 6 * 3600000) } };\n}\n\nconst state = $getWorkflowStaticData('global');\nconst games = $input.first().json.data || [];\nconst { messages, state: next } = scoreStep(state, games, TEAM, Date.now());\nstate.scores = next.scores;\nstate.initialised = next.initialised;\nstate.nextCheck = next.nextCheck;\nreturn messages.map((text) => ({ json: { text } }));"
+      }
+    },
+    {
+      "id": "ed13b24a-3762-3934-831f-83d8958dc5b8",
+      "name": "Send to Telegram",
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        880,
+        0
+      ],
+      "parameters": {
+        "chatId": "YOUR_CHAT_ID",
+        "text": "={{ $json.text }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Every minute": {
+      "main": [
+        [
+          {
+            "node": "Worth calling?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Worth calling?": {
+      "main": [
+        [
+          {
+            "node": "Get scoreboard",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get scoreboard": {
+      "main": [
+        [
+          {
+            "node": "Score changes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score changes": {
+      "main": [
+        [
+          {
+            "node": "Send to Telegram",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {}
+}
