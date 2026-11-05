@@ -7,6 +7,8 @@ Usage:
   python cfb.py scores --date 2026-10-31 --team UGA
   python cfb.py box <eventId>                   # passing, rushing and receiving lines for one game
   python cfb.py plays <eventId> --last 15       # the last plays of a game, with the score after each
+  python cfb.py rankings                        # AP Top 25 (or --poll coaches / cfp), latest week
+  python cfb.py rankings --poll ap --week 5     # a past week of a poll
 
 Each command is one API call (plays: two when the game has more than 100 plays; --all fetches every page). Needs REALTIME_SPORTS_API_KEY (env or .env).
 """
@@ -109,6 +111,19 @@ def cmd_plays(args: argparse.Namespace) -> None:
     print(f"\n{pg.get('total', len(plays))} plays in the game")
 
 
+def cmd_rankings(args: argparse.Namespace) -> None:
+    params: Dict[str, Any] = {"poll": args.poll}
+    if args.week:
+        params["week"] = args.week
+    for poll in api_get(f"{CFB}/rankings", **params)["data"]:
+        print(f"\n{poll['name']} - {poll['week'].get('label') or ''}")
+        for r in poll["ranks"]:
+            t = r["team"]
+            move = "" if r.get("trend") in (None, "-") else f" ({r['trend']})"
+            votes = f", {r['firstPlaceVotes']} first-place" if r.get("firstPlaceVotes") else ""
+            print(f"  {r['rank']:>2}. {t.get('displayName')} [{t.get('id')}] {r.get('record') or ''}{move}{votes}")
+
+
 def main() -> None:
     load_dotenv(Path(__file__).with_name(".env"))
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -125,6 +140,10 @@ def main() -> None:
     pl.add_argument("--last", type=int, default=15, help="show only the last N plays (0 = all fetched)")
     pl.add_argument("--all", action="store_true", help="fetch every page, not just the first 100 plays")
     pl.set_defaults(fn=cmd_plays)
+    rk = sub.add_parser("rankings")
+    rk.add_argument("--poll", default="ap", choices=["ap", "coaches", "cfp"])
+    rk.add_argument("--week", type=int, help="a past week of this season (default: latest)")
+    rk.set_defaults(fn=cmd_rankings)
     args = ap.parse_args()
     args.fn(args)
 

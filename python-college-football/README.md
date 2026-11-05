@@ -1,6 +1,6 @@
 # College football data in Python
 
-Scores, box scores and play-by-play for NCAA FBS college football from the [Realtime Sports API](https://www.realtimesportsapi.com), in one small script that only needs `requests`.
+Scores, rankings (AP Top 25, coaches poll, CFP), box scores and play-by-play for NCAA FBS college football from the [Realtime Sports API](https://www.realtimesportsapi.com), in one small script that only needs `requests`.
 
 Tutorial: https://www.realtimesportsapi.com/guides/college-football-api-python
 
@@ -13,6 +13,7 @@ python cfb.py scores                               # the current scoreboard (thi
 python cfb.py scores --date 2026-10-31 --team UGA  # one day, one team
 python cfb.py box 401856734                        # passing, rushing, receiving lines
 python cfb.py plays 401856734 --last 15            # how the game ended, play by play
+python cfb.py rankings --poll cfp                  # AP Top 25 by default; coaches or cfp
 ```
 
 Each command is one API call (`plays` makes two when a game has more than 100 plays). Data typically runs 20-30 seconds behind live play.
