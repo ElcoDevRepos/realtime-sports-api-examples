@@ -17,3 +17,14 @@ python cfb.py rankings --poll cfp                  # AP Top 25 by default; coach
 ```
 
 Each command is one API call (`plays` makes two when a game has more than 100 plays). Data typically runs 20-30 seconds behind live play.
+
+## Rankings script
+
+`rankings.py` focuses on the polls (tutorial: https://www.realtimesportsapi.com/guides/college-football-rankings-api-python):
+
+```bash
+python rankings.py                    # AP Top 25 (--poll coaches or cfp)
+python rankings.py movers             # biggest moves since last week, new entries, dropped out
+python rankings.py matchups           # this week's games with a ranked team
+```
+
