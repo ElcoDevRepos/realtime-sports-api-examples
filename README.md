@@ -87,6 +87,7 @@ curl -H "Authorization: Bearer $REALTIME_SPORTS_API_KEY" \
 node javascript/live-scores.mjs football nfl
 node javascript/schedule.mjs football nfl 2026 5
 node javascript/event-details.mjs football nfl <eventId>
+node javascript/watch.mjs basketball nba 30     # print score changes every 30 s
 ```
 
 **Python**
@@ -97,6 +98,7 @@ pip install -r python/requirements.txt
 python python/live_scores.py hockey nhl
 python python/schedule.py football nfl 2026 5
 python python/event_details.py football nfl <eventId>
+python python/watch.py basketball nba 30         # print score changes every 30 s
 ```
 
 **Projects** (each folder has its own README with setup and sample output)

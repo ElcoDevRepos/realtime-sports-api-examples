@@ -19,7 +19,7 @@ def main() -> None:
     plays = api_get(f"{base}/plays", limit=10)["data"] or []
     print("\nPlays:")
     for p in plays:
-        print(" -", p.get("text") or str(p)[:120])
+        print(" -", p.get("text") or " ".join(x for x in [(p.get("type") or {}).get("text") or "Play", (p.get("clock") or {}).get("displayValue")] if x))
 
 
 if __name__ == "__main__":

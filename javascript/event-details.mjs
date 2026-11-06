@@ -19,5 +19,5 @@ run(async () => {
 
   const { data: plays } = await apiGet(`${base}/plays`, { limit: 10 });
   console.log('\nPlays:');
-  for (const p of plays ?? []) console.log(` - ${p.text ?? JSON.stringify(p).slice(0, 120)}`);
+  for (const p of plays ?? []) console.log(` - ${p.text ?? [p.type?.text ?? 'Play', p.clock?.displayValue].filter(Boolean).join(' ')}`);
 });
