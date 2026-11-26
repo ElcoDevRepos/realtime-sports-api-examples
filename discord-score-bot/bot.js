@@ -1,5 +1,5 @@
 // Discord score bot for the Realtime Sports API.
-// Streams score changes over the WebSocket (paid plans; Free has a 500-message monthly preview) or falls back to sane REST polling.
+// Streams score changes over the WebSocket (paid plans, or the free 7-day Starter trial) or falls back to sane REST polling.
 // Usage: npm start            (posts to DISCORD_WEBHOOK_URL)
 //        npm run dry-run      (prints messages instead of posting)
 import WebSocket from 'ws';

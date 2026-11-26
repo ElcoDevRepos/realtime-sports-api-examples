@@ -108,4 +108,4 @@ ND VS VILL  no odds available
   newer than the last history snapshot; the script compares it with the last snapshot too.
 - Many games have a single snapshot (no moves yet). `provider` can be `"Unknown"` on some events.
 - To react to moves as they happen instead of polling, subscribe to `event_odds_change` over the
-  WebSocket stream (paid plans; the Free plan includes a 500-message monthly preview).
+  WebSocket stream (paid plans, or the free 7-day Starter trial).
